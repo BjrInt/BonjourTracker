@@ -1,9 +1,7 @@
 <template>
   <div class="playback-controls">
-    <div class="play">
-      <span v-if="isPlaying">pause</span>
-      <span v-else>play</span>
-    </div>
+    <div v-if="isPlaying">pause</div>
+    <div v-else>Play</div>
     <div class="stop">Stop</div>
   </div>
 </template>
