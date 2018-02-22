@@ -4,9 +4,26 @@ const playback = {
     iterator: 0,
     BPM: 120
   },
+
   mutations:{
-    Play(){
-      !state.isPlaying
+    Play(state){
+      state.isPlaying = !state.isPlaying
+    },
+    BPMChange(state, o){
+      state.BPM += o.inc
+    }
+  },
+
+  actions:{
+    Play({commit}){
+      commit('Play')
+    },
+
+    MoreBPM({commit}){
+      commit({
+        type: 'BPMChange',
+        inc: 5
+      })
     }
   }
 }
