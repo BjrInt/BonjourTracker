@@ -1,4 +1,4 @@
-import { initTrack } from '../helpers.lib.js'
+import { initTrack } from '../lib.helpers.js'
 
 const MAX_TRACKS = 4
 
@@ -12,10 +12,6 @@ const tracks = {
       if(state.tracks.length < MAX_TRACKS)
         state.tracks.push( initTrack() )
     }
-  },
-
-  actions:{
-
   }
 }
 

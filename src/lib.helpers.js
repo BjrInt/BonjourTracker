@@ -1,6 +1,6 @@
 export const BPM2ms = (bpm) => ( (bpm >= 1) ? 60000 / bpm : null )
 
-export const initTrack = (l=32) => (
+export const initTrack = (l=32) => {
   const t = {
     note: null,
     volume: null
@@ -12,4 +12,5 @@ export const initTrack = (l=32) => (
     ret.push(t)
 
   return ret
-)
+
+}
