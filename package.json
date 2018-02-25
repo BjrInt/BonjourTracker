@@ -1,8 +1,8 @@
 {
-  "name": "bjrtrcker",
+  "name": "bonjourtracker",
   "description": "A Vue.js project",
   "version": "1.0.0",
-  "author": "BjrInt <kelian.christophe@gmail.com>",
+  "author": "BONJOURINTERNET",
   "license": "MIT",
   "private": true,
   "scripts": {
