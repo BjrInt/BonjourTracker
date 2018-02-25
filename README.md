@@ -1,18 +1,15 @@
-# bjrtrcker
-
-> A Vue.js project
+# BonjourTracker
+A tracker built on love and Javascript.
 
 ## Build Setup
 
 ``` bash
 # install dependencies
-npm install
+yarn
 
-# serve with hot reload at localhost:8080
-npm run dev
+# dev server on port 8080
+yarn run dev
 
-# build for production with minification
-npm run build
+# build
+yarn run build
 ```
-
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
