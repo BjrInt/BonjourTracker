@@ -12,6 +12,12 @@ const tracks = {
       if(state.tracks.length < MAX_TRACKS)
         state.tracks.push( initTrack() )
     }
+  },
+
+  actions:{
+    addTrack({commit}){
+      commit('addTrack')
+    }
   }
 }
 
