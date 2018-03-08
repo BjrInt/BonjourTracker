@@ -1,4 +1,5 @@
 export const TRACK_LENGTH = 16
+export const MAX_TRACKS = 4
 
 export const BPM2ms = (bpm) => ( (bpm >= 1) ? 60000 / bpm : null )
 

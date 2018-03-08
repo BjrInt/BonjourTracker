@@ -1,6 +1,4 @@
-import { initTrack } from '../lib.helpers.js'
-
-const MAX_TRACKS = 4
+import { initTrack, MAX_TRACKS } from '../lib.helpers'
 
 const tracks = {
   state:{

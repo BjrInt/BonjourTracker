@@ -6,15 +6,19 @@
       </ul>
     </div>
 
-    <span @click="addTrack" class="addtrack">+ add track</span>
+    <div>
+      <span @click="addTrack" :class="tracks.length < maxTracks ? 'addtrack' : 'addtrack disabled'">+ add track</span>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import { MAX_TRACKS } from '../lib.helpers'
 
 export default {
   name: 'Tracks',
+  data: () => ({maxTracks: MAX_TRACKS}),
   computed:
     mapState({
       tracks: state => state.tracks.tracks,
@@ -49,9 +53,12 @@ export default {
   transition: .5s;
   margin-left: 50px;
 
-  &:hover{
+  &:hover:not(.disabled){
     background: #000;
     color: #FFF;
+  }
+  &.disabled{
+    opacity: .5;
   }
 }
 
