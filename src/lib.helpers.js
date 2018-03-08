@@ -1,6 +1,8 @@
+export const TRACK_LENGTH = 16
+
 export const BPM2ms = (bpm) => ( (bpm >= 1) ? 60000 / bpm : null )
 
-export const initTrack = (l=32) => {
+export const initTrack = (l=TRACK_LENGTH) => {
   const t = {
     note: null,
     volume: null
