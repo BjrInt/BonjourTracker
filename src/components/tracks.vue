@@ -6,8 +6,11 @@
       </ul>
     </div>
 
-    <div>
+    <div class="track_add_control">
       <span @click="addTrack" :class="tracks.length < maxTracks ? 'addtrack' : 'addtrack disabled'">+ add track</span>
+      <div class="maxtrackreached">
+        <template v-if="tracks.length >= maxTracks">Max number of tracks reached</template>
+      </div>
     </div>
   </div>
 </template>
@@ -51,7 +54,7 @@ export default {
   border-radius: .5vh;
   padding: .5vh 1vh;
   transition: .5s;
-  margin-left: 50px;
+  user-select: none;
 
   &:hover:not(.disabled){
     background: #000;
@@ -59,7 +62,12 @@ export default {
   }
   &.disabled{
     opacity: .5;
+    cursor: auto;
   }
+}
+
+.track_add_control{
+  margin-left: 50px;
 }
 
 ul{
