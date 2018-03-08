@@ -13,3 +13,5 @@ yarn run dev
 # build
 yarn run build
 ```
+
+(Icons courtesy of icomoon)

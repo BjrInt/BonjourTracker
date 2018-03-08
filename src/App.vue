@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    <h1>{{ msg }}</h1>
-
     <PlaybackControls />
     <Tracks />
   </div>
@@ -16,12 +14,7 @@ export default {
   components: {
     PlaybackControls,
     Tracks
-  },
-  data: () => (
-    {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  )
+  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template lang="html">
-  <div class="tracks">
+  <div class="wrapper">
     <button @click="addTrack">Add a track</button>
-    <div class="track_wrapper" v-for="track in tracks">
+    <div class="tracks" v-for="track in tracks">
       <ul>
         <li v-for="ni in track">{{ni.note}}</li>
       </ul>
@@ -27,5 +27,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.wrapper{
+  width: 100%;
+  background: #FFF;
+  box-shadow: -2px 0 12px rgba(0,0,0,.2);
+  height : 90vh;
+}
 </style>

@@ -1,20 +1,20 @@
 <template>
-  <div class="playback-controls">
-    <div @click="togglePlay">
-      <template v-if="isPlaying">
-        pause
-      </template>
+  <div class="wrapper">
+    <div class="playback-controls">
+      <div @click="togglePlay">
+        <template v-if="isPlaying">
+          <span class="__pause"></span>
+        </template>
 
-      <template v-else>
-        play
-      </template>
+        <template v-else>
+          <span class="__play"></span>
+        </template>
+      </div>
+
+      <span class="bpm">{{ BPM }}</span>
+
+      <span class="__stop"></span>
     </div>
-
-    <span class="bpm">{{ BPM }}</span>
-
-    <div class="stop">Stop</div>
-
-    <button @click="moreBPM">Mooooore !</button>
   </div>
 </template>
 
@@ -39,9 +39,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .wrapper{
+    width: 100%;
+    height : 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EEE;
+    height : 10vh;
+  }
+
   .playback-controls{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    font-size: 4vh;
 
     &>div{
       cursor: pointer;
