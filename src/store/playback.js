@@ -1,3 +1,5 @@
+import { TRACK_LENGTH, BPM2ms } from '../lib.helpers.js'
+
 const playback = {
   state:{
     isPlaying: false,
@@ -7,23 +9,39 @@ const playback = {
 
   mutations:{
     Play(state){
-      state.isPlaying = !state.isPlaying
+      state.isPlaying = true
+      state.iterator = (state.iterator < TRACK_LENGTH - 1) ? state.iterator + 1 : 0
     },
-    BPMChange(state, o){
-      state.BPM += o.inc
+
+    Pause(state){
+      state.isPlaying = false
+
+      window.clearInterval(window.playbackInterval)
+    },
+
+    Stop(state){
+      state.isPlaying = false
+      state.iterator = 0
+
+      window.clearInterval(window.playbackInterval)
     }
   },
 
   actions:{
     Play({commit}){
+      window.playbackInterval = window.setInterval(() => {commit('Play')}, BPM2ms(this.getters.BPM))
+
       commit('Play')
     },
 
-    MoreBPM({commit}){
-      commit({
-        type: 'BPMChange',
-        inc: 5
-      })
+    Pause({commit}){ commit('Pause') },
+
+    Stop({commit}){ commit('Stop') }
+  },
+
+  getters:{
+    BPM(state){
+      return state.BPM
     }
   }
 }

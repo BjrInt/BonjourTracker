@@ -1,5 +1,10 @@
 <template lang="html">
   <div class="wrapper">
+    <div v-if="tracks.length > 0">
+      <ul class="linelabels">
+        <li class="n-line" v-for="n in trackLength">{{n}}</li>
+      </ul>
+    </div>
     <div class="tracks" v-for="track in tracks">
       <ul>
         <li v-for="ni in track">{{ni.note}} a </li>
@@ -17,11 +22,14 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import { MAX_TRACKS } from '../lib.helpers'
+import { MAX_TRACKS, TRACK_LENGTH } from '../lib.helpers'
 
 export default {
   name: 'Tracks',
-  data: () => ({maxTracks: MAX_TRACKS}),
+  data: () => ({
+    maxTracks: MAX_TRACKS,
+    trackLength: TRACK_LENGTH
+  }),
   computed:
     mapState({
       tracks: state => state.tracks.tracks,
@@ -36,6 +44,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@keyframes maxtracks {
+  from{
+    color : #dd5d47;
+  }
+  to{
+    color : #7c0000;
+  }
+}
+
 .wrapper{
   width: 100%;
   background: #FFF;
@@ -76,15 +93,30 @@ ul{
   border-right : 1px solid #000;
   list-style: none;
 
+  &.linelabels{
+    opacity: .6;
+  }
+
   li{
     padding : 3px 10px;
     border-bottom : 1px solid #000;
     cursor: pointer;
     transition: .25s;
 
-    &:hover{
+    &.n-line{
+      padding : 3px 2px;
+      cursor: auto;
+    }
+
+    &:hover:not(.n-line){
       background: #DDD;
     }
   }
+}
+
+.maxtrackreached{
+  margin: 15px 0 0 0;
+  color: #c42c11;
+  animation : maxtracks 2s linear alternate infinite;
 }
 </style>

@@ -15,5 +15,4 @@ export const initTrack = (l=TRACK_LENGTH) => {
     ret.push(t)
 
   return ret
-
 }

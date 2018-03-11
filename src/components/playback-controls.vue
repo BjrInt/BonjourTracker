@@ -1,21 +1,21 @@
 <template>
   <div class="wrapper">
     <div class="playback-controls">
-      <div @click="togglePlay">
+      <div>
         <template v-if="isPlaying">
-          <span class="__pause actionbtn"></span>
+          <span class="__pause actionbtn" @click="Pause"></span>
         </template>
 
         <template v-else>
-          <span class="__play actionbtn"></span>
+          <span class="__play actionbtn" @click="Play"></span>
         </template>
       </div>
 
       <div class="progression">
-        <span class="currentline">0</span> / <span class="totallines">{{ len }}</span>
+        <span class="currentline">{{ iteration + 1}}</span> / <span class="totallines">{{ len }}</span>
       </div>
 
-      <span class="__stop actionbtn"></span>
+      <span class="__stop actionbtn" @click="Stop"></span>
     </div>
   </div>
 </template>
@@ -24,20 +24,20 @@
 import { mapActions, mapState } from 'vuex'
 import { TRACK_LENGTH } from '../lib.helpers'
 
+let interval
+
 export default {
   name: 'PlaybackControls',
   data: () => ({ len: TRACK_LENGTH }),
   computed:
     mapState({
       isPlaying: state => state.playback.isPlaying,
-      BPM: state => state.playback.BPM
+      BPM: state => state.playback.BPM,
+      iteration: state => state.playback.iterator
     })
   ,
   methods:{
-    ...mapActions({
-      togglePlay: 'Play',
-      moreBPM: 'MoreBPM'
-    })
+    ...mapActions(['Play', 'Pause', 'Stop'])
   }
 }
 </script>
