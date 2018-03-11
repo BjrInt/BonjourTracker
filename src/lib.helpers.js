@@ -18,7 +18,24 @@ const NOTE_FREQUENCIES = {
 
 const NOTE_KEYS = Object.keys(NOTE_FREQUENCIES)
 
-export const BPM2ms = (bpm) => ( (bpm >= 1) ? 60000 / bpm : null )
+export const colorizeNote = (note, octave) => {
+  const index = NOTE_KEYS.findIndex(k => note == k)
+
+  if(index != -1){
+    let hsl = []
+
+    hsl[0] = (360 / NOTE_KEYS.length) * index
+    hsl[1] = 85 - (octave * 2) + '%'
+    hsl[2] = 30 + (octave * 3) + '%'
+
+    return 'hsl('+ hsl.join(', ')  +')'
+  }
+  else {
+    return '#000000'
+  }
+}
+
+export const BPM2ms = (bpm) => ( (bpm >= 1) ? 15000 / bpm : null )
 
 export const getClosestMultiple = (input, m=5) => ( input - (input % m) )
 

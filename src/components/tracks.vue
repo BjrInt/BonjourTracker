@@ -2,16 +2,16 @@
   <div class="wrapper">
     <div v-if="tracks.length > 0">
       <ul class="linelabels">
-        <li class="n-line" v-for="n in trackLength">{{n}}</li>
+        <li class="n-line" v-for="n in TRACK_LENGTH">{{n}}</li>
       </ul>
     </div>
 
     <div class="tracks" v-for="track in tracks">
       <div class="single-track">
         <ul>
-          <li v-for="ni in track">
-            <div class="line">
-              <span class="note">{{ni.note.padEnd(2, '&nbsp;')}}</span>
+          <li v-for="(ni, i) in track">
+            <div class="line" :class="{isplaying:(iteration == i && isPlaying)}">
+              <span class="note" :style="{color: colorizeNote(ni.note, ni.octave)}">{{ni.note.padEnd(2, '&nbsp;')}} {{ ni.octave }}</span>
               <span class="volume">{{ String(ni.volume).padEnd(2, '&nbsp') }}</span>
               <span class="cmd">--</span>
             </div>
@@ -21,9 +21,9 @@
     </div>
 
     <div class="track_add_control">
-      <span @click="addRandomTrack" :class="tracks.length < maxTracks ? 'addtrack' : 'addtrack disabled'">+ add track</span>
+      <span @click="addRandomTrack" :class="tracks.length < MAX_TRACKS ? 'addtrack' : 'addtrack disabled'">+ add track</span>
       <div class="maxtrackreached">
-        <template v-if="tracks.length >= maxTracks">Max number of tracks reached</template>
+        <template v-if="tracks.length >= MAX_TRACKS">Max number of tracks reached</template>
       </div>
     </div>
   </div>
@@ -31,21 +31,25 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import { MAX_TRACKS, TRACK_LENGTH } from '../lib.helpers'
+import { MAX_TRACKS, TRACK_LENGTH, colorizeNote } from '../lib.helpers'
+
+console.log(colorizeNote('b', 3))
 
 export default {
   name: 'Tracks',
   data: () => ({
-    maxTracks: MAX_TRACKS,
-    trackLength: TRACK_LENGTH
+    MAX_TRACKS, TRACK_LENGTH
   }),
   computed:
     mapState({
       tracks: state => state.tracks.tracks,
+      iteration: state => state.playback.iterator,
+      isPlaying: state => state.playback.isPlaying
     })
   ,
   methods:{
-    ...mapActions(['addTrack', 'addRandomTrack'])
+    ...mapActions(['addTrack', 'addRandomTrack']),
+    colorizeNote
   }
 }
 </script>
@@ -105,7 +109,6 @@ ul{
   }
 
   li{
-    padding : 3px 5px;
     border-bottom : 1px solid #000;
     cursor: pointer;
     transition: .25s;
@@ -124,6 +127,7 @@ ul{
 
 .line{
   font-family: 'Roboto Mono', monospace;
+  padding : 3px 5px;
 
   span{
     padding : 0 8px;
@@ -137,6 +141,11 @@ ul{
 
   span:first-child{
     border : 0;
+  }
+
+  &.isplaying{
+    background: #FFF;
+    filter: invert(1);
   }
 }
 
