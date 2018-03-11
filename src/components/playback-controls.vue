@@ -1,21 +1,19 @@
 <template>
   <div class="wrapper">
     <div class="playback-controls">
-      <div>
-        <template v-if="isPlaying">
-          <span class="__pause actionbtn" @click="Pause"></span>
-        </template>
+      <template v-if="isPlaying">
+        <span class="__pause actionbtn" @click="Pause" />
+      </template>
 
-        <template v-else>
-          <span class="__play actionbtn" @click="Play"></span>
-        </template>
-      </div>
+      <template v-else>
+        <span class="__play actionbtn" @click="Play" />
+      </template>
 
       <div class="progression">
-        <span class="currentline">{{ iteration + 1}}</span> / <span class="totallines">{{ len }}</span>
+        <span class="currentline">{{ String(iteration + 1).padStart(2, '0') }}</span> / <span class="totallines">{{ len }}</span>
       </div>
 
-      <span class="__stop actionbtn" @click="Stop"></span>
+      <span class="__stop actionbtn" @click="Stop" />
     </div>
   </div>
 </template>
