@@ -1,4 +1,4 @@
-const context = new (window.AudioContext || window.webkitAudioContext)()
+export const context = new (window.AudioContext || window.webkitAudioContext)()
 
 export const OSC_TYPES = ['sine', 'square', 'sawtooth', 'triangle']
 
@@ -15,8 +15,7 @@ export const createOscillator = (type='sine', volume=1) => {
   return osc
 }
 
-export const playNote = (osc, value=440, duration=2) => {
+export const playNote = (osc, value=440) => {
   osc.frequency.value = value
   osc.start(context.currentTime)
-  osc.stop(context.currentTime + duration)
 }

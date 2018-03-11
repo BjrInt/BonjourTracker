@@ -5,14 +5,23 @@
         <li class="n-line" v-for="n in trackLength">{{n}}</li>
       </ul>
     </div>
+
     <div class="tracks" v-for="track in tracks">
-      <ul>
-        <li v-for="ni in track">{{ni.note}} a </li>
-      </ul>
+      <div class="single-track">
+        <ul>
+          <li v-for="ni in track">
+            <div class="line">
+              <span class="note">{{ni.note.padEnd(2, '&nbsp;')}}</span>
+              <span class="volume">{{ String(ni.volume).padEnd(2, '&nbsp') }}</span>
+              <span class="cmd">--</span>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div class="track_add_control">
-      <span @click="addTrack" :class="tracks.length < maxTracks ? 'addtrack' : 'addtrack disabled'">+ add track</span>
+      <span @click="addRandomTrack" :class="tracks.length < maxTracks ? 'addtrack' : 'addtrack disabled'">+ add track</span>
       <div class="maxtrackreached">
         <template v-if="tracks.length >= maxTracks">Max number of tracks reached</template>
       </div>
@@ -36,9 +45,7 @@ export default {
     })
   ,
   methods:{
-    ...mapActions({
-      addTrack: 'addTrack'
-    })
+    ...mapActions(['addTrack', 'addRandomTrack'])
   }
 }
 </script>
@@ -98,19 +105,38 @@ ul{
   }
 
   li{
-    padding : 3px 10px;
+    padding : 3px 5px;
     border-bottom : 1px solid #000;
     cursor: pointer;
     transition: .25s;
 
     &.n-line{
+      font-family: 'Roboto Mono', monospace;
       padding : 3px 2px;
       cursor: auto;
     }
 
     &:hover:not(.n-line){
-      background: #DDD;
+      background: rgba(0,0,0,.15);
     }
+  }
+}
+
+.line{
+  font-family: 'Roboto Mono', monospace;
+
+  span{
+    padding : 0 8px;
+    border-left : 1px dotted #3d3d3d;
+    display: inline-block;
+
+    &:hover{
+      background: rgba(0,0,0,.15);
+    }
+  }
+
+  span:first-child{
+    border : 0;
   }
 }
 
