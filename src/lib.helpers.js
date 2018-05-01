@@ -1,7 +1,7 @@
 export const TRACK_LENGTH = 16
 export const MAX_TRACKS = 4
 
-const NOTE_FREQUENCIES = {
+export const NOTE_FREQUENCIES = {
   'c': 16.35,
   'c#': 17.32,
   'd': 18.35,

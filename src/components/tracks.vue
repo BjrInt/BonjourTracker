@@ -6,12 +6,14 @@
       </ul>
     </div>
 
-    <div class="tracks" v-for="track in tracks">
+    <div class="tracks" v-for="(track, iTrack) in tracks">
       <div class="single-track">
         <ul>
           <li v-for="(ni, i) in track">
             <div class="line" :class="{isplaying:(iteration == i && isPlaying)}">
-              <span class="note" :style="{color: colorizeNote(ni.note, ni.octave)}">{{ni.note.padEnd(2, '&nbsp;')}} {{ ni.octave }}</span>
+              <span class="note" @click="changeNote(iTrack, i, '-')" :style="{color: colorizeNote(ni.note, ni.octave)}">
+                {{ni.note.padEnd(2, '&nbsp;')}} {{ ni.octave }}
+              </span>
               <span class="volume">{{ String(ni.volume).padEnd(2, '&nbsp') }}</span>
               <span class="cmd">--</span>
             </div>
@@ -42,13 +44,13 @@ export default {
   }),
   computed:
     mapState({
-      tracks: state => state.tracks.tracks,
+      tracks: state => state.playback.tracks,
       iteration: state => state.playback.iterator,
       isPlaying: state => state.playback.isPlaying
     })
   ,
   methods:{
-    ...mapActions(['addTrack', 'addRandomTrack']),
+    ...mapActions(['addTrack', 'addRandomTrack', 'changeNote']),
     colorizeNote
   }
 }

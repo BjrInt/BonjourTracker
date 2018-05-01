@@ -18,4 +18,5 @@ export const createOscillator = (type='sine', volume=1) => {
 export const playNote = (osc, value=440) => {
   osc.frequency.value = value
   osc.start(context.currentTime)
+  osc.stop(context.currentTime + 0.2)
 }
