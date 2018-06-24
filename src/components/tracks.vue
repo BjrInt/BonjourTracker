@@ -1,6 +1,8 @@
 <template lang="html">
   <div class="wrapper">
     <div v-if="tracks.length > 0">
+      <div class="track-header" />
+
       <ul class="linelabels">
         <li class="n-line" v-for="n in TRACK_LENGTH">{{n}}</li>
       </ul>
@@ -8,6 +10,15 @@
 
     <div class="tracks" v-for="(track, iTrack) in tracks">
       <div class="single-track">
+        <div class="track-header">
+          <div class="track-name">{{trackNames[iTrack]}}</div>
+
+          <div class="track-modifiers">
+            <span class="__settings" />
+            <span class="__delete" />
+          </div>
+        </div>
+
         <ul>
           <li v-for="(ni, i) in track">
             <div class="line" :class="{isplaying:(iteration == i && isPlaying)}">
@@ -45,6 +56,7 @@ export default {
   computed:
     mapState({
       tracks: state => state.playback.tracks,
+      trackNames: state => state.playback.trackNames,
       iteration: state => state.playback.iterator,
       isPlaying: state => state.playback.isPlaying
     })
@@ -64,6 +76,10 @@ export default {
   to{
     color : #7c0000;
   }
+}
+
+*{
+  box-sizing: border-box;
 }
 
 .wrapper{
@@ -155,5 +171,34 @@ ul{
   margin: 15px 0 0 0;
   color: #c42c11;
   animation : maxtracks 2s linear alternate infinite;
+}
+
+.track-header{
+  background: #000;
+  width: 100%;
+  border: 1px solid #FFF;
+  padding: 0 5px;
+  color : #FFF;
+  display: flex;
+  align-items: center;
+  height : 32px;
+  justify-content: space-between;
+
+  .track-modifiers{
+    [class^="__"]{
+      cursor: pointer;
+      display: inline-block;
+
+      &:first-child{
+        margin-right : 5px;
+      }
+    }
+  }
+
+  .track-name{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width : 100px;
+  }
 }
 </style>

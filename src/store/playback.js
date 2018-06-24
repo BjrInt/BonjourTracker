@@ -7,7 +7,8 @@ const playback = {
     iterator: 0,
     BPM: 120,
 
-    tracks: []
+    tracks: [],
+    trackNames: []
   },
 
   mutations:{
@@ -43,8 +44,12 @@ const playback = {
     },
 
     addRandomTrack(state){
-      if(state.tracks.length < MAX_TRACKS)
+      if(state.tracks.length < MAX_TRACKS){
         state.tracks.push( initRandomTrack() )
+      }
+      state.trackNames.push('Track ' + state.tracks.length)
+
+      console.log(state.trackNames)
     },
 
     changeNote(state, {track, offset, note='-'}){
