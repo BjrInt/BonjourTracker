@@ -11,7 +11,7 @@
         <ul>
           <li v-for="(ni, i) in track">
             <div class="line" :class="{isplaying:(iteration == i && isPlaying)}">
-              <span class="note" @click="changeNote(iTrack, i, '-')" :style="{color: colorizeNote(ni.note, ni.octave)}">
+              <span class="note" @click="changeNote([iTrack, i, '-'])" :style="{color: colorizeNote(ni.note, ni.octave)}">
                 {{ni.note.padEnd(2, '&nbsp;')}} {{ ni.octave }}
               </span>
               <span class="volume">{{ String(ni.volume).padEnd(2, '&nbsp') }}</span>

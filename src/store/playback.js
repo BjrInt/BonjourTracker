@@ -13,14 +13,15 @@ const playback = {
   mutations:{
     Play(state){
       state.isPlaying = true
-      state.iterator = (state.iterator < TRACK_LENGTH - 1) ? state.iterator + 1 : 0
 
       state.tracks.forEach(x => {
         const n = x[state.iterator]
-        
+
         const osc = createOscillator('sine', n.volume)
-        playNote(osc, NOTE_FREQUENCIES[n.note] * (n.octave + 2))
+        playNote(osc, NOTE_FREQUENCIES[n.note] * Math.pow(2, n.octave))
       })
+
+      state.iterator = (state.iterator < TRACK_LENGTH - 1) ? state.iterator + 1 : 0
     },
 
     Pause(state){
@@ -47,7 +48,6 @@ const playback = {
     },
 
     changeNote(state, {track, offset, note='-'}){
-      console.log(track, offset, note)
       state.tracks[track][offset].note = note
     }
   },
@@ -71,11 +71,11 @@ const playback = {
       commit('addRandomTrack')
     },
 
-    changeNote({commit}, track, offset, note){
+    changeNote({commit}, payload){
       commit('changeNote', {
-        track,
-        offset,
-        note
+        track: payload[0],
+        offset: payload[1],
+        note: payload[2]
       })
     }
   },
