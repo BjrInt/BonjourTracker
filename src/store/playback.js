@@ -1,5 +1,15 @@
-import { TRACK_LENGTH, BPM2ms , initTrack, initRandomTrack, MAX_TRACKS, NOTE_FREQUENCIES } from '../lib.helpers.js'
-import { playNote, createOscillator } from '../lib.audio.js'
+import {
+  TRACK_LENGTH,
+  MAX_TRACKS,
+  NOTE_FREQUENCIES,
+
+  BPM2ms ,
+  initTrack
+} from '../lib.helpers.js'
+import {
+  playNote,
+  createOscillator
+} from '../lib.audio.js'
 
 const playback = {
   state:{
@@ -16,10 +26,12 @@ const playback = {
       state.isPlaying = true
 
       state.tracks.forEach(x => {
-        const n = x[state.iterator]
+        const n = x.notes[state.iterator]
 
-        const osc = createOscillator('sine', n.volume)
-        playNote(osc, NOTE_FREQUENCIES[n.note] * Math.pow(2, n.octave))
+        if(n.note != '-' && n.note != '#'){
+          const osc = createOscillator('sine', n.volume)
+          playNote(osc, NOTE_FREQUENCIES[n.note] * Math.pow(2, n.octave))
+        }
       })
 
       state.iterator = (state.iterator < TRACK_LENGTH - 1) ? state.iterator + 1 : 0

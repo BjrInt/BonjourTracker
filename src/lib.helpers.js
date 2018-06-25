@@ -1,5 +1,5 @@
 export const TRACK_LENGTH = 16
-export const MAX_TRACKS = 4
+export const MAX_TRACKS = 6
 
 export const NOTE_FREQUENCIES = {
   'c': 16.35,
@@ -42,7 +42,7 @@ export const getClosestMultiple = (input, m=5) => input - (input % m)
 export const initTrack = (l=TRACK_LENGTH) => {
   const t = {
     note: '-',
-    octave: 0,
+    octave: 4,
     volume: 80
   }
 

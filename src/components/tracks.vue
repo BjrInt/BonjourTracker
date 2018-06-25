@@ -1,45 +1,48 @@
 <template lang="html">
   <div class="wrapper">
-    <div v-if="tracks.length > 0">
-      <div class="track-header" />
-
-      <ul class="linelabels">
-        <li class="n-line" v-for="n in TRACK_LENGTH">{{n}}</li>
-      </ul>
-    </div>
-
-    <div class="tracks" v-for="(track, iTrack) in tracks">
-      <div class="single-track">
-        <div class="track-header">
-          <div class="track-name">{{track.name}}</div>
-
-          <div class="track-modifiers">
-            <span class="__settings" />
-            <span class="__delete" @click="deleteTrack(iTrack)" />
-          </div>
-        </div>
-
-        <ul>
-          <li v-for="(ni, i) in track.notes">
-            <div class="line" :class="{isplaying:(iteration == i && isPlaying)}">
-              <span class="note"
-                    @click="changeNote([iTrack, i, '-'])"
-                    :style="{color: colorizeNote(ni.note, ni.octave)}">
-                {{ni.note.padEnd(2, '&nbsp;')}} {{ ni.octave }}
-              </span>
-              <span class="volume">{{ String(ni.volume).padEnd(2, '&nbsp') }}</span>
-              <span class="cmd">--</span>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-
     <div class="track_add_control">
       <span @click="addTrack"
             :class="tracks.length < MAX_TRACKS ? 'addtrack' : 'addtrack disabled'">+ add track</span>
-      <div class="maxtrackreached">
+
+      <span class="maxtrackreached">
         <template v-if="tracks.length >= MAX_TRACKS">Max number of tracks reached</template>
+      </span>
+    </div>
+
+    <div class="tracks-wrapper">
+      <div v-if="tracks.length > 0">
+        <div class="track-header" />
+
+        <ul class="linelabels">
+          <li class="n-line" v-for="n in TRACK_LENGTH">{{n}}</li>
+        </ul>
+      </div>
+
+      <div class="tracks" v-for="(track, iTrack) in tracks">
+        <div class="single-track">
+          <div class="track-header">
+            <div class="track-name">{{track.name}}</div>
+
+            <div class="track-modifiers">
+              <span class="__settings" />
+              <span class="__delete" @click="deleteTrack(iTrack)" />
+            </div>
+          </div>
+
+          <ul>
+            <li v-for="(ni, i) in track.notes">
+              <div class="line" :class="{isplaying:(iteration == i && isPlaying)}">
+                <span class="note"
+                      @click="changeNote([iTrack, i, '-'])"
+                      :style="{color: colorizeNote(ni.note, ni.octave)}">
+                  {{ni.note.padEnd(2, '&nbsp;')}} {{ ni.octave }}
+                </span>
+                <span class="volume">{{ String(ni.volume).padEnd(2, '&nbsp') }}</span>
+                <span class="cmd">--</span>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -47,14 +50,20 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import { MAX_TRACKS, TRACK_LENGTH, colorizeNote } from '../lib.helpers'
+import {
+  MAX_TRACKS,
+  TRACK_LENGTH,
+  colorizeNote
+} from '../lib.helpers'
+import TrackOptions from './track-options.vue'
 
 console.log(colorizeNote('b', 3))
 
 export default {
   name: 'Tracks',
   data: () => ({
-    MAX_TRACKS, TRACK_LENGTH
+    MAX_TRACKS,
+    TRACK_LENGTH
   }),
   computed:
     mapState({
@@ -64,7 +73,11 @@ export default {
     })
   ,
   methods:{
-    ...mapActions(['addTrack', 'changeNote', 'deleteTrack']),
+    ...mapActions([
+      'addTrack',
+      'changeNote',
+      'deleteTrack'
+    ]),
     colorizeNote
   }
 }
@@ -85,13 +98,26 @@ export default {
 }
 
 .wrapper{
-  width: 100%;
   background: #FFF;
   box-shadow: -2px 0 12px rgba(0,0,0,.2);
   height : 90vh;
   display: flex;
+  flex-direction: column;
+  overflow-x: scroll;
+}
+
+.tracks-wrapper{
+  display: flex;
   align-items: center;
   justify-content: center;
+  width : 85%;
+  min-width: 1100px;
+  margin: 0 auto;
+}
+
+.tracks{
+  flex-grow: 1;
+  max-width: 50%;
 }
 
 .addtrack{
@@ -115,7 +141,7 @@ export default {
 }
 
 .track_add_control{
-  margin-left: 50px;
+  margin: 50px auto;
 }
 
 ul{
