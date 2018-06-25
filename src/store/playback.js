@@ -8,7 +8,7 @@ const playback = {
     BPM: 120,
 
     tracks: [],
-    trackNames: []
+    trackNameIterator: 0
   },
 
   mutations:{
@@ -39,21 +39,22 @@ const playback = {
     },
 
     addTrack(state){
-      if(state.tracks.length < MAX_TRACKS)
-        state.tracks.push( initTrack() )
-    },
+      state.trackNameIterator++
 
-    addRandomTrack(state){
       if(state.tracks.length < MAX_TRACKS){
-        state.tracks.push( initRandomTrack() )
+        state.tracks.push({
+          notes: initTrack(),
+          name: 'Track ' + state.trackNameIterator
+        })
       }
-      state.trackNames.push('Track ' + state.tracks.length)
-
-      console.log(state.trackNames)
     },
 
     changeNote(state, {track, offset, note='-'}){
       state.tracks[track][offset].note = note
+    },
+
+    deleteTrack(state, i){
+      state.tracks.splice(i, 1)
     }
   },
 
@@ -68,13 +69,9 @@ const playback = {
 
     Stop({commit}){ commit('Stop') },
 
-    addTrack({commit}){
-      commit('addTrack')
-    },
+    addTrack({commit}){ commit('addTrack') },
 
-    addRandomTrack({commit}){
-      commit('addRandomTrack')
-    },
+    deleteTrack({commit}, i){ commit('deleteTrack', i) },
 
     changeNote({commit}, payload){
       commit('changeNote', {

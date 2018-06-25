@@ -41,9 +41,9 @@ export const getClosestMultiple = (input, m=5) => input - (input % m)
 
 export const initTrack = (l=TRACK_LENGTH) => {
   const t = {
-    note: null,
+    note: '-',
     octave: 0,
-    volume: null
+    volume: 80
   }
 
   let ret = []

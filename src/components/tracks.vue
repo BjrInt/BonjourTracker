@@ -11,18 +11,20 @@
     <div class="tracks" v-for="(track, iTrack) in tracks">
       <div class="single-track">
         <div class="track-header">
-          <div class="track-name">{{trackNames[iTrack]}}</div>
+          <div class="track-name">{{track.name}}</div>
 
           <div class="track-modifiers">
             <span class="__settings" />
-            <span class="__delete" />
+            <span class="__delete" @click="deleteTrack(iTrack)" />
           </div>
         </div>
 
         <ul>
-          <li v-for="(ni, i) in track">
+          <li v-for="(ni, i) in track.notes">
             <div class="line" :class="{isplaying:(iteration == i && isPlaying)}">
-              <span class="note" @click="changeNote([iTrack, i, '-'])" :style="{color: colorizeNote(ni.note, ni.octave)}">
+              <span class="note"
+                    @click="changeNote([iTrack, i, '-'])"
+                    :style="{color: colorizeNote(ni.note, ni.octave)}">
                 {{ni.note.padEnd(2, '&nbsp;')}} {{ ni.octave }}
               </span>
               <span class="volume">{{ String(ni.volume).padEnd(2, '&nbsp') }}</span>
@@ -34,7 +36,8 @@
     </div>
 
     <div class="track_add_control">
-      <span @click="addRandomTrack" :class="tracks.length < MAX_TRACKS ? 'addtrack' : 'addtrack disabled'">+ add track</span>
+      <span @click="addTrack"
+            :class="tracks.length < MAX_TRACKS ? 'addtrack' : 'addtrack disabled'">+ add track</span>
       <div class="maxtrackreached">
         <template v-if="tracks.length >= MAX_TRACKS">Max number of tracks reached</template>
       </div>
@@ -56,13 +59,12 @@ export default {
   computed:
     mapState({
       tracks: state => state.playback.tracks,
-      trackNames: state => state.playback.trackNames,
       iteration: state => state.playback.iterator,
       isPlaying: state => state.playback.isPlaying
     })
   ,
   methods:{
-    ...mapActions(['addTrack', 'addRandomTrack', 'changeNote']),
+    ...mapActions(['addTrack', 'changeNote', 'deleteTrack']),
     colorizeNote
   }
 }
