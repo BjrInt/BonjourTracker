@@ -14,7 +14,7 @@
         <div class="track-header" />
 
         <ul class="linelabels">
-          <li class="n-line" v-for="n in TRACK_LENGTH">{{n}}</li>
+          <li class="n-line" v-for="n in TRACK_LENGTH">{{String(n).padStart(4, '0')}}</li>
         </ul>
       </div>
 
@@ -163,6 +163,10 @@ ul{
       font-family: 'Roboto Mono', monospace;
       padding : 3px 2px;
       cursor: auto;
+
+      &:nth-child(4n+1), &:nth-child(1){
+        color: #b82323;
+      }
     }
 
     &:hover:not(.n-line){
