@@ -1,5 +1,9 @@
 <template lang="html">
   <div class="wrapper">
+    <transition name="trackoptionstransition">
+      <TrackOptions v-if="openedOptions != undefined" />
+    </transition>
+
     <div class="track_add_control">
       <span @click="addTrack"
             :class="tracks.length < MAX_TRACKS ? 'addtrack' : 'addtrack disabled'">+ add track</span>
@@ -24,7 +28,7 @@
             <div class="track-name">{{track.name}}</div>
 
             <div class="track-modifiers">
-              <span class="__settings" />
+              <span class="__settings" @click="openTrackOptions(iTrack)" />
               <span class="__delete" @click="deleteTrack(iTrack)" />
             </div>
           </div>
@@ -57,28 +61,30 @@ import {
 } from '../lib.helpers'
 import TrackOptions from './track-options.vue'
 
-console.log(colorizeNote('b', 3))
-
 export default {
   name: 'Tracks',
   data: () => ({
     MAX_TRACKS,
     TRACK_LENGTH
   }),
-  computed:
-    mapState({
+  computed: mapState({
       tracks: state => state.playback.tracks,
       iteration: state => state.playback.iterator,
-      isPlaying: state => state.playback.isPlaying
-    })
-  ,
+      isPlaying: state => state.playback.isPlaying,
+      openedOptions: state => state.playback.openedOptions
+  }),
+
   methods:{
     ...mapActions([
       'addTrack',
       'changeNote',
-      'deleteTrack'
+      'deleteTrack',
+      'openTrackOptions'
     ]),
     colorizeNote
+  },
+  components:{
+    TrackOptions
   }
 }
 </script>
@@ -203,6 +209,11 @@ ul{
   margin: 15px 0 0 0;
   color: #c42c11;
   animation : maxtracks 2s linear alternate infinite;
+}
+
+.trackoptionstransition-enter, .trackoptionstransition-leave-to{
+  transition: .33s linear;
+  opacity: 0;
 }
 
 .track-header{

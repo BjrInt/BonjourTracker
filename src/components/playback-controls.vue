@@ -27,15 +27,17 @@ let interval
 export default {
   name: 'PlaybackControls',
   data: () => ({ len: TRACK_LENGTH }),
-  computed:
-    mapState({
+  computed: mapState({
       isPlaying: state => state.playback.isPlaying,
       BPM: state => state.playback.BPM,
       iteration: state => state.playback.iterator
-    })
-  ,
+  }),
   methods:{
-    ...mapActions(['Play', 'Pause', 'Stop'])
+    ...mapActions([
+      'Play',
+      'Pause',
+      'Stop'
+    ])
   }
 }
 </script>

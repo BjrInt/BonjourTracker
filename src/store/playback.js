@@ -18,7 +18,8 @@ const playback = {
     BPM: 120,
 
     tracks: [],
-    trackNameIterator: 0
+    trackNameIterator: 0,
+    openedOptions: null
   },
 
   mutations:{
@@ -56,17 +57,27 @@ const playback = {
       if(state.tracks.length < MAX_TRACKS){
         state.tracks.push({
           notes: initTrack(),
-          name: 'Track ' + state.trackNameIterator
+          name: 'Track ' + state.trackNameIterator,
+          bgColor: '#000'
         })
       }
     },
 
     changeNote(state, {track, offset, note='-'}){
-      state.tracks[track][offset].note = note
+      state.tracks[track].notes[offset].note = note
     },
 
     deleteTrack(state, i){
       state.tracks.splice(i, 1)
+    },
+
+    openTrackOptions(state, trackId){
+      state.openedOptions = trackId
+    },
+
+    closeTrackOptions(state, e){
+      if(e.target.className == 'overlay')  
+        state.openedOptions = null
     }
   },
 
@@ -91,7 +102,11 @@ const playback = {
         offset: payload[1],
         note: payload[2]
       })
-    }
+    },
+
+    openTrackOptions({commit}, trackId){ commit('openTrackOptions', trackId) },
+
+    closeTrackOptions({commit}, e){ commit('closeTrackOptions', e) }
   },
 
   getters:{
