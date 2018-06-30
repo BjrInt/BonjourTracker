@@ -1,23 +1,36 @@
 <template lang="html">
   <div class="overlay" @click="(e) => {closeTrackOptions(e)}">
     <div class="wrapper">
+      <div class="track-colors-wrapper">
+        <div class="color-picker"
+             v-for="col in colors"
+             @click="setTrackColor(col)"
+             :style="{background:col}" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import { getIterableArray } from '../lib.helpers'
 
 export default {
   name: 'TrackOptions',
   methods: {
     ...mapActions([
-      'closeTrackOptions'
+      'closeTrackOptions',
+      'setTrackColor'
     ])
   },
   computed: mapState({
       openedOptions: state => state.playback.openedOptions
   }),
+  data: () => ({
+    colors: getIterableArray(6).map((x, i) => (
+      'hsl('+ 60 * i +', 100%, 40%)'
+    ))
+  })
 }
 </script>
 
@@ -41,5 +54,24 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 201;
+}
+
+.track-colors-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  width: 200px;
+
+  .color-picker{
+    height : 25px;
+    width : 25px;
+    margin : 4px;
+    cursor: pointer;
+    transition: .5s;
+
+    &:hover{
+      transform: scale(1.15)
+    }
+  }
 }
 </style>

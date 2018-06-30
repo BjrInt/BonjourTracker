@@ -76,8 +76,12 @@ const playback = {
     },
 
     closeTrackOptions(state, e){
-      if(e.target.className == 'overlay')  
+      if(e.target.className == 'overlay')
         state.openedOptions = null
+    },
+
+    setTrackColor(state, col){
+      state.tracks[state.openedOptions].bgColor = col
     }
   },
 
@@ -95,6 +99,8 @@ const playback = {
     addTrack({commit}){ commit('addTrack') },
 
     deleteTrack({commit}, i){ commit('deleteTrack', i) },
+
+    setTrackColor({commit}, col){ commit('setTrackColor', col) },
 
     changeNote({commit}, payload){
       commit('changeNote', {

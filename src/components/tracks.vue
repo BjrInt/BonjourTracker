@@ -24,7 +24,7 @@
 
       <div class="tracks" v-for="(track, iTrack) in tracks">
         <div class="single-track">
-          <div class="track-header">
+          <div class="track-header" :style="{backgroundColor: track.bgColor}">
             <div class="track-name">{{track.name}}</div>
 
             <div class="track-modifiers">
@@ -219,7 +219,6 @@ ul{
 .track-header{
   background: #000;
   width: 100%;
-  border: 1px solid #FFF;
   padding: 0 5px;
   color : #FFF;
   display: flex;

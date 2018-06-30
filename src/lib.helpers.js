@@ -39,6 +39,8 @@ export const BPM2ms = bpm => bpm >= 1 ? (15000 / bpm) : null
 
 export const getClosestMultiple = (input, m=5) => input - (input % m)
 
+export const getIterableArray = len => Array.apply(0, Array(len))
+
 export const initTrack = (l=TRACK_LENGTH) => {
   const t = {
     note: '-',
@@ -50,23 +52,6 @@ export const initTrack = (l=TRACK_LENGTH) => {
   let i
   for(i=0;i<l;i++)
     ret.push(t)
-
-  return ret
-}
-
-export const initRandomTrack = (l=TRACK_LENGTH) => {
-  let ret = []
-  let i
-
-  let keyLen = NOTE_KEYS.length
-
-  for(i=0;i<l;i++){
-    ret.push({
-      note: NOTE_KEYS[ Math.floor(Math.random() * keyLen) ],
-      volume: getClosestMultiple(Math.random() * 100, 5),
-      octave: Math.ceil(Math.random() * 5)
-    })
-  }
 
   return ret
 }
