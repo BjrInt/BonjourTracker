@@ -41,17 +41,10 @@ export const getClosestMultiple = (input, m=5) => input - (input % m)
 
 export const getIterableArray = len => Array.apply(0, Array(len))
 
-export const initTrack = (l=TRACK_LENGTH) => {
-  const t = {
+export const initTrack = (l=TRACK_LENGTH) => (
+  getIterableArray(l).map(() => ({
     note: '-',
     octave: 4,
     volume: 80
-  }
-
-  let ret = []
-  let i
-  for(i=0;i<l;i++)
-    ret.push(t)
-
-  return ret
-}
+  }))
+)

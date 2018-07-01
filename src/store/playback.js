@@ -82,6 +82,10 @@ const playback = {
 
     setTrackColor(state, col){
       state.tracks[state.openedOptions].bgColor = col
+    },
+
+    setTrackName(state, n){
+      state.tracks[state.openedOptions].name = n
     }
   },
 
@@ -101,6 +105,8 @@ const playback = {
     deleteTrack({commit}, i){ commit('deleteTrack', i) },
 
     setTrackColor({commit}, col){ commit('setTrackColor', col) },
+
+    setTrackName({commit}, e){ commit('setTrackName', e.target.value) },
 
     changeNote({commit}, payload){
       commit('changeNote', {

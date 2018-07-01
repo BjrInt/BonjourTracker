@@ -1,6 +1,11 @@
 <template lang="html">
   <div class="overlay" @click="(e) => {closeTrackOptions(e)}">
     <div class="wrapper">
+      <div>
+        <label>Track name:</label>
+        <input type="text" :value="trackName" @input="setTrackName" />
+      </div>
+      <label>Track color:</label>
       <div class="track-colors-wrapper">
         <div class="color-picker"
              v-for="col in colors"
@@ -20,11 +25,13 @@ export default {
   methods: {
     ...mapActions([
       'closeTrackOptions',
-      'setTrackColor'
+      'setTrackColor',
+      'setTrackName'
     ])
   },
   computed: mapState({
-      openedOptions: state => state.playback.openedOptions
+      openedOptions: state => state.playback.openedOptions,
+      trackName: state => state.playback.tracks[state.playback.openedOptions].name
   }),
   data: () => ({
     colors: getIterableArray(6).map((x, i) => (
