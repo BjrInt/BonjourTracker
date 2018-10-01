@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="overlay" @click="(e) => {closeTrackOptions(e)}">
+  <div class="global-overlay" @click="(e) => {closeTrackOptions(e)}">
     <div class="wrapper">
       <div>
         <label>Track name:</label>
@@ -18,13 +18,14 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import { getIterableArray } from '../lib.helpers'
+import { getIterableArray, onESCkey } from '../lib.helpers'
 
 export default {
   name: 'TrackOptions',
   methods: {
     ...mapActions([
       'closeTrackOptions',
+      'closeTrackOptionsESC',
       'setTrackColor',
       'setTrackName'
     ])
@@ -37,21 +38,17 @@ export default {
     colors: getIterableArray(6).map((x, i) => (
       'hsl('+ 60 * i +', 100%, 40%)'
     ))
-  })
+  }),
+  mounted(){
+    window.addEventListener('keyup', e => onESCkey(e, this.closeTrackOptionsESC))
+  },
+  beforeDestroy(){
+    window.removeEventListener('keyup', e => onESCkey(e, this.closeTrackOptionsESC))
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.overlay{
-  top : 0;
-  right : 0;
-  bottom : 0;
-  left : 0;
-  background: rgba(0,0,0, .4);
-  position: fixed;
-  z-index: 200;
-}
-
 .wrapper{
   width : 250px;
   background: #FFF;

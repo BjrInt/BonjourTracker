@@ -76,8 +76,12 @@ const playback = {
     },
 
     closeTrackOptions(state, e){
-      if(e.target.className == 'overlay')
+      if(e.target.className == 'global-overlay')
         state.openedOptions = null
+    },
+
+    closeTrackOptionsESC(state){
+      state.openedOptions = null
     },
 
     setTrackColor(state, col){
@@ -118,7 +122,9 @@ const playback = {
 
     openTrackOptions({commit}, trackId){ commit('openTrackOptions', trackId) },
 
-    closeTrackOptions({commit}, e){ commit('closeTrackOptions', e) }
+    closeTrackOptions({commit}, e){ commit('closeTrackOptions', e) },
+
+    closeTrackOptionsESC({commit}){ commit('closeTrackOptionsESC') }
   },
 
   getters:{

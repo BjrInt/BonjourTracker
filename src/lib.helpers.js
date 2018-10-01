@@ -48,3 +48,8 @@ export const initTrack = (l=TRACK_LENGTH) => (
     volume: 80
   }))
 )
+
+export const onESCkey = (e, cb) => {
+  if(e.which === 27)
+    cb()
+}
