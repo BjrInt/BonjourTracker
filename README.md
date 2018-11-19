@@ -1,17 +1,26 @@
-# BonjourTracker
-A tracker built on love and Javascript.
+# bjrtracker
 
-## Build Setup
+## Project setup
+```
+yarn install
+```
 
-``` bash
-# install dependencies
-yarn
+### Compiles and hot-reloads for development
+```
+yarn run serve
+```
 
-# dev server on port 8080
-yarn run dev
-
-# build
+### Compiles and minifies for production
+```
 yarn run build
 ```
 
-(Icons courtesy of icomoon)
+### Lints and fixes files
+```
+yarn run lint
+```
+
+### Run your unit tests
+```
+yarn run test:unit
+```
