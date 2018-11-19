@@ -1,6 +1,9 @@
 {
-  "name": "bjrtracker",
-  "version": "0.1.0",
+  "name": "bonjourtracker",
+  "description": "A Vue.js project",
+  "version": "0.1.1",
+  "author": "BONJOURINTERNET",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
