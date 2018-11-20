@@ -90,6 +90,26 @@ const playback = {
 
     setTrackName(state, n){
       state.tracks[state.openedOptions].name = n
+    },
+
+    incrementVolume(state, {track, offset, inc}){
+      const curVol = state.tracks[track].notes[offset].volume
+      let newVol
+
+      if(inc > 0){
+        if((curVol + inc) >= 100)
+          newVol = 100
+        else
+          newVol = curVol + inc
+      }
+      else{
+        if((curVol + inc) <= 0)
+          newVol = 0
+        else
+          newVol = curVol + inc
+      }
+
+      state.tracks[track].notes[offset].volume = newVol
     }
   },
 
@@ -117,6 +137,26 @@ const playback = {
         track: payload[0],
         offset: payload[1],
         note: payload[2]
+      })
+    },
+
+    incrementVolume({commit}, payload){
+      payload[0].preventDefault()
+
+      commit('incrementVolume', {
+        track: payload[1],
+        offset: payload[2],
+        inc: 5
+      })
+    },
+
+    decrementVolume({commit}, payload){
+      payload[0].preventDefault()
+
+      commit('incrementVolume', {
+        track: payload[1],
+        offset: payload[2],
+        inc: -5
       })
     },
 

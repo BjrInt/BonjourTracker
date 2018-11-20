@@ -41,7 +41,12 @@
                       :style="{color: colorizeNote(ni.note, ni.octave)}">
                   {{ni.note.padEnd(2, '&nbsp;')}} {{ ni.octave }}
                 </span>
-                <span class="volume">{{ String(ni.volume).padEnd(2, '&nbsp') }}</span>
+
+                <span class="volume"
+                      @contextmenu="e => decrementVolume([e, iTrack, i])"
+                      @click="e => incrementVolume([e, iTrack, i])">
+                  {{ String(ni.volume).padEnd(3, '&nbsp;') }}
+                </span>
                 <span class="cmd">--</span>
               </div>
             </li>
@@ -79,7 +84,9 @@ export default {
       'addTrack',
       'changeNote',
       'deleteTrack',
-      'openTrackOptions'
+      'openTrackOptions',
+      'incrementVolume',
+      'decrementVolume'
     ]),
     colorizeNote
   },
