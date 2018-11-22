@@ -8,7 +8,8 @@ import {
 } from '../lib.helpers.js'
 import {
   playNote,
-  createOscillator
+  createOscillator,
+  OSC_TYPES
 } from '../lib.audio.js'
 
 const playback = {
@@ -19,7 +20,9 @@ const playback = {
 
     tracks: [],
     trackNameIterator: 0,
-    openedOptions: null
+    openedOptions: null,
+
+    openedVK: null
   },
 
   mutations:{
@@ -58,7 +61,8 @@ const playback = {
         state.tracks.push({
           notes: initTrack(),
           name: 'Track ' + state.trackNameIterator,
-          bgColor: '#000'
+          bgColor: '#000',
+          oscType: OSC_TYPES[0]
         })
       }
     },
@@ -84,12 +88,29 @@ const playback = {
       state.openedOptions = null
     },
 
+    openVirtualKeyboard(state, payload){
+      state.openedVK = payload
+    },
+
+    closeVirtualKeyboard(state, e){
+      if(e.target.className == 'global-overlay')
+        state.openedVK = null
+    },
+
+    closeVirtualKeyboardESC(state){
+      state.openedVK = null
+    },
+
     setTrackColor(state, col){
       state.tracks[state.openedOptions].bgColor = col
     },
 
     setTrackName(state, n){
       state.tracks[state.openedOptions].name = n
+    },
+
+    setTrackOsc(state, t){
+      state.tracks[state.openedOptions].oscType = t
     },
 
     incrementVolume(state, {track, offset, inc}){
@@ -132,6 +153,8 @@ const playback = {
 
     setTrackName({commit}, e){ commit('setTrackName', e.target.value) },
 
+    setTrackOsc({commit}, t){ commit('setTrackOsc', t) },
+
     changeNote({commit}, payload){
       commit('changeNote', {
         track: payload[0],
@@ -164,7 +187,18 @@ const playback = {
 
     closeTrackOptions({commit}, e){ commit('closeTrackOptions', e) },
 
-    closeTrackOptionsESC({commit}){ commit('closeTrackOptionsESC') }
+    closeTrackOptionsESC({commit}){ commit('closeTrackOptionsESC') },
+
+    openVirtualKeyboard({commit}, payload){
+      commit('openVirtualKeyboard', {
+        track: payload[0],
+        offset: payload[1]
+      })
+    },
+
+    closeVirtualKeyboard({commit}, e){ commit('closeVirtualKeyboard', e) },
+
+    closeVirtualKeyboardESC({commit}){ commit('closeVirtualKeyboardESC') }
   },
 
   getters:{

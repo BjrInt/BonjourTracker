@@ -1,16 +1,30 @@
 <template lang="html">
   <div class="global-overlay" @click="(e) => {closeTrackOptions(e)}">
-    <div class="wrapper">
-      <div>
+    <div class="standard-modal wrapper">
+      <div style="width:225px">
         <label>Track name:</label>
         <input type="text" :value="trackName" @input="setTrackName" />
       </div>
+
       <label>Track color:</label>
       <div class="track-colors-wrapper">
         <div class="color-picker"
              v-for="col in colors"
+             :key="col"
              @click="setTrackColor(col)"
              :style="{background:col}" />
+      </div>
+
+      <label>Oscillator type:</label>
+      <div>
+        <select @change="e => setTrackOsc(e.target.value)">
+          <option v-for="osc_type in OSC_TYPES"
+                  :value="osc_type"
+                  :key="osc_type"
+                  :selected="osc_type === selectedOsc">
+                  {{osc_type}}
+          </option>
+        </select>
       </div>
     </div>
   </div>
@@ -19,6 +33,7 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import { getIterableArray, onESCkey } from '../lib.helpers'
+import { OSC_TYPES } from '../lib.audio'
 
 export default {
   name: 'TrackOptions',
@@ -27,17 +42,20 @@ export default {
       'closeTrackOptions',
       'closeTrackOptionsESC',
       'setTrackColor',
-      'setTrackName'
+      'setTrackName',
+      'setTrackOsc'
     ])
   },
   computed: mapState({
       openedOptions: state => state.playback.openedOptions,
-      trackName: state => state.playback.tracks[state.playback.openedOptions].name
+      trackName: state => state.playback.tracks[state.playback.openedOptions].name,
+      selectedOsc: state => state.playback.tracks[state.playback.openedOptions].oscType
   }),
   data: () => ({
     colors: getIterableArray(6).map((x, i) => (
       'hsl('+ 60 * i +', 100%, 40%)'
-    ))
+    )),
+    OSC_TYPES
   }),
   mounted(){
     window.addEventListener('keyup', e => onESCkey(e, this.closeTrackOptionsESC))
@@ -51,13 +69,6 @@ export default {
 <style lang="scss" scoped>
 .wrapper{
   width : 250px;
-  background: #FFF;
-  padding : 25px;
-  position: absolute;
-  top : 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 201;
 }
 
 .track-colors-wrapper{
@@ -77,5 +88,19 @@ export default {
       transform: scale(1.15)
     }
   }
+}
+
+label{
+  display: block;
+  text-align: center;
+  padding-top: 8px;
+}
+
+select{
+  width: 100%;
+}
+
+input[type="text"]{
+  width: 100%;
 }
 </style>
