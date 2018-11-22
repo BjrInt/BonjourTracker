@@ -1,16 +1,30 @@
 <template lang="html">
   <div class="global-overlay" @click="(e) => {closeTrackOptions(e)}">
-    <div class="wrapper">
-      <div>
+    <div class="standard-modal wrapper">
+      <div style="width:225px">
         <label>Track name:</label>
         <input type="text" :value="trackName" @input="setTrackName" />
       </div>
+
       <label>Track color:</label>
       <div class="track-colors-wrapper">
         <div class="color-picker"
              v-for="col in colors"
+             :key="col"
              @click="setTrackColor(col)"
              :style="{background:col}" />
+      </div>
+
+      <label>Oscillator type:</label>
+      <div>
+        <select @change="e => setTrackOsc(e.target.value)">
+          <option v-for="osc_type in OSC_TYPES"
+                  :value="osc_type"
+                  :key="osc_type"
+                  :selected="osc_type === selectedOsc">
+                  {{osc_type}}
+          </option>
+        </select>
       </div>
     </div>
   </div>
@@ -51,13 +65,6 @@ export default {
 <style lang="scss" scoped>
 .wrapper{
   width : 250px;
-  background: #FFF;
-  padding : 25px;
-  position: absolute;
-  top : 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 201;
 }
 
 .track-colors-wrapper{

@@ -16,7 +16,18 @@ body{
   right : 0;
   bottom : 0;
   left : 0;
-  background: rgba(0,0,0, .4);
+  background: rgba(0,0,0, .3);
   position: fixed;
   z-index: 200;
+}
+
+.standard-modal{
+  padding : 25px;
+  background: #FFF;
+  position: absolute;
+  top : 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 201;
+  box-shadow: 5px 5px 35px rgba(0,0,0,.3);
 }
