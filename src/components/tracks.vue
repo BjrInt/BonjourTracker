@@ -1,9 +1,5 @@
 <template lang="html">
   <div class="wrapper">
-    <transition name="trackoptionstransition">
-      <TrackOptions v-if="openedOptions != undefined" />
-    </transition>
-
     <div class="track_add_control">
       <span @click="addTrack"
             :class="tracks.length < MAX_TRACKS ? 'addtrack' : 'addtrack disabled'">+ add track</span>
@@ -18,11 +14,13 @@
         <div class="track-header" />
 
         <ul class="linelabels">
-          <li class="n-line" v-for="n in TRACK_LENGTH">{{String(n).padStart(4, '0')}}</li>
+          <li class="n-line" v-for="n in TRACK_LENGTH" :key="'linelabel__'+ n">
+            {{String(n).padStart(4, '0')}}
+          </li>
         </ul>
       </div>
 
-      <div class="tracks" v-for="(track, iTrack) in tracks">
+      <div class="tracks" v-for="(track, iTrack) in tracks" :key="'track__' + iTrack">
         <div class="single-track">
           <div class="track-header" :style="{backgroundColor: track.bgColor}">
             <div class="track-name">{{track.name}}</div>
@@ -34,10 +32,10 @@
           </div>
 
           <ul>
-            <li v-for="(ni, i) in track.notes">
+            <li v-for="(ni, i) in track.notes" :key="'note__' + iTrack + '__' + i">
               <div class="line" :class="{isplaying:(iteration == i && isPlaying)}">
                 <span class="note"
-                      @click="changeNote([iTrack, i, '-'])"
+                      @click="openVirtualKeyboard([iTrack, i])"
                       :style="{color: colorizeNote(ni.note, ni.octave)}">
                   {{ni.note.padEnd(2, '&nbsp;')}} {{ ni.octave }}
                 </span>
@@ -47,6 +45,7 @@
                       @click="e => incrementVolume([e, iTrack, i])">
                   {{ String(ni.volume).padEnd(3, '&nbsp;') }}
                 </span>
+
                 <span class="cmd">--</span>
               </div>
             </li>
@@ -64,7 +63,6 @@ import {
   TRACK_LENGTH,
   colorizeNote
 } from '../lib.helpers'
-import TrackOptions from './track-options.vue'
 
 export default {
   name: 'Tracks',
@@ -76,7 +74,6 @@ export default {
       tracks: state => state.playback.tracks,
       iteration: state => state.playback.iterator,
       isPlaying: state => state.playback.isPlaying,
-      openedOptions: state => state.playback.openedOptions
   }),
 
   methods:{
@@ -85,13 +82,11 @@ export default {
       'changeNote',
       'deleteTrack',
       'openTrackOptions',
+      'openVirtualKeyboard',
       'incrementVolume',
       'decrementVolume'
     ]),
     colorizeNote
-  },
-  components:{
-    TrackOptions
   }
 }
 </script>
