@@ -131,6 +131,14 @@ const playback = {
       }
 
       state.tracks[track].notes[offset].volume = newVol
+    },
+
+    insertNote(state, payload){
+      const {track, offset} = state.openedVK
+      state.tracks[track].note[offset] = {
+        ...state.tracks[track].note[offset],
+        payload
+      }
     }
   },
 
