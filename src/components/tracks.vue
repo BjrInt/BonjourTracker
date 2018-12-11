@@ -36,6 +36,7 @@
               <div class="line" :class="{isplaying:(iteration == i && isPlaying)}">
                 <span class="note"
                       @click="openVirtualKeyboard([iTrack, i])"
+                      @contextmenu="e => removeNote([e, iTrack, i])"
                       :style="{color: colorizeNote(ni.note, ni.octave)}">
                   {{ni.note.padEnd(2, '&nbsp;')}} {{ ni.octave }}
                 </span>
@@ -84,7 +85,8 @@ export default {
       'openTrackOptions',
       'openVirtualKeyboard',
       'incrementVolume',
-      'decrementVolume'
+      'decrementVolume',
+      'removeNote'
     ]),
     colorizeNote
   }

@@ -1,10 +1,11 @@
 <template lang="html">
-  <div class="global-overlay" @click="(e) => { closeVirtualKeyboard(e) }">
+  <div class="global-overlay" @click="e => closeVirtualKeyboard(e)">
     <div class="standard-modal wrapper">
       <div class="keyroll">
         <div v-for="key in KEYROLL"
              :class="key.endsWith('#') ? 'sharpnote' : 'note'"
-             @click=""
+             :key="key"
+             @click="e => insertNote([key, 4])"
              class="key">
              {{key}}
         </div>
@@ -23,6 +24,7 @@ export default {
     ...mapActions([
       'closeVirtualKeyboard',
       'closeVirtualKeyboardESC',
+      'insertNote'
     ])
   },
   data: () => ({
@@ -40,15 +42,19 @@ export default {
 <style lang="scss" scoped>
 .wrapper{
   width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .keyroll{
   display: flex;
+  margin: auto;
 }
 
 .key{
   border-radius: 5px;
-  width: 22px;
+  width: 24px;
   padding: 0 4px;
   border: 2px solid #000;
   cursor: pointer;
@@ -65,7 +71,7 @@ export default {
   }
 
   &.note{
-    height: 200px;
+    height: 160px;
     background: #FFF;
     color: #000;
   }

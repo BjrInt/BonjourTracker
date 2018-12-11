@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="global-overlay" @click="(e) => {closeTrackOptions(e)}">
+  <div class="global-overlay" @click="e => closeTrackOptions(e)">
     <div class="standard-modal wrapper">
       <div style="width:225px">
         <label>Track name:</label>

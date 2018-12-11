@@ -2,18 +2,24 @@ export const TRACK_LENGTH = 16
 export const MAX_TRACKS = 6
 
 export const NOTE_FREQUENCIES = {
-  'c': 16.35,
-  'c#': 17.32,
-  'd': 18.35,
-  'd#': 19.45,
-  'e': 20.60,
-  'f': 21.83,
-  'f#': 23.12,
-  'g': 24.50,
-  'g#': 25.96,
-  'a': 27.50,
-  'a#': 29.14,
-  'b': 30.87
+  'C': 16.35,
+  'C#': 17.32,
+  'D': 18.35,
+  'D#': 19.45,
+  'E': 20.60,
+  'F': 21.83,
+  'F#': 23.12,
+  'G': 24.50,
+  'G#': 25.96,
+  'A': 27.50,
+  'A#': 29.14,
+  'B': 30.87
+}
+
+export const NULL_NOTE = {
+  note: '-',
+  octave: 4,
+  volume: 80
 }
 
 const NOTE_KEYS = Object.keys(NOTE_FREQUENCIES)
@@ -42,11 +48,7 @@ export const getClosestMultiple = (input, m=5) => input - (input % m)
 export const getIterableArray = len => Array.apply(0, Array(len))
 
 export const initTrack = (l=TRACK_LENGTH) => (
-  getIterableArray(l).map(() => ({
-    note: '-',
-    octave: 4,
-    volume: 80
-  }))
+  getIterableArray(l).map(() => (NULL_NOTE))
 )
 
 export const onESCkey = (e, cb) => {

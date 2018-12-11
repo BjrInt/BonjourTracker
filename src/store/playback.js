@@ -1,7 +1,9 @@
+import Vue from 'vue'
 import {
   TRACK_LENGTH,
   MAX_TRACKS,
   NOTE_FREQUENCIES,
+  NULL_NOTE,
 
   BPM2ms ,
   initTrack
@@ -33,7 +35,7 @@ const playback = {
         const n = x.notes[state.iterator]
 
         if(n.note != '-' && n.note != '#'){
-          const osc = createOscillator('sine', n.volume)
+          const osc = createOscillator(x.oscType, n.volume)
           playNote(osc, NOTE_FREQUENCIES[n.note] * Math.pow(2, n.octave))
         }
       })
@@ -65,10 +67,6 @@ const playback = {
           oscType: OSC_TYPES[0]
         })
       }
-    },
-
-    changeNote(state, {track, offset, note='-'}){
-      state.tracks[track].notes[offset].note = note
     },
 
     deleteTrack(state, i){
@@ -135,10 +133,18 @@ const playback = {
 
     insertNote(state, payload){
       const {track, offset} = state.openedVK
-      state.tracks[track].note[offset] = {
-        ...state.tracks[track].note[offset],
-        payload
-      }
+
+      // Triggers a rerender (nested object)
+      Vue.set(state.tracks[track].notes, offset, {
+        ...state.tracks[track].notes[offset],
+        ...payload
+      })
+
+      state.openedVK = null
+    },
+
+    removeNote(state, {track, offset}){
+      Vue.set(state.tracks[track].notes, offset, NULL_NOTE)
     }
   },
 
@@ -163,30 +169,22 @@ const playback = {
 
     setTrackOsc({commit}, t){ commit('setTrackOsc', t) },
 
-    changeNote({commit}, payload){
-      commit('changeNote', {
-        track: payload[0],
-        offset: payload[1],
-        note: payload[2]
-      })
-    },
-
-    incrementVolume({commit}, payload){
-      payload[0].preventDefault()
+    incrementVolume({commit}, [event, track, offset]){
+      event.preventDefault()
 
       commit('incrementVolume', {
-        track: payload[1],
-        offset: payload[2],
+        track,
+        offset,
         inc: 5
       })
     },
 
-    decrementVolume({commit}, payload){
-      payload[0].preventDefault()
+    decrementVolume({commit}, [event, track, offset]){
+      event.preventDefault()
 
       commit('incrementVolume', {
-        track: payload[1],
-        offset: payload[2],
+        track,
+        offset,
         inc: -5
       })
     },
@@ -197,16 +195,23 @@ const playback = {
 
     closeTrackOptionsESC({commit}){ commit('closeTrackOptionsESC') },
 
-    openVirtualKeyboard({commit}, payload){
-      commit('openVirtualKeyboard', {
-        track: payload[0],
-        offset: payload[1]
-      })
+    openVirtualKeyboard({commit}, [track, offset]){
+      commit('openVirtualKeyboard', {track, offset})
     },
 
     closeVirtualKeyboard({commit}, e){ commit('closeVirtualKeyboard', e) },
 
-    closeVirtualKeyboardESC({commit}){ commit('closeVirtualKeyboardESC') }
+    closeVirtualKeyboardESC({commit}){ commit('closeVirtualKeyboardESC') },
+
+    insertNote({commit}, [note, octave]){
+      commit('insertNote', {note, octave})
+    },
+
+    removeNote({commit}, [event, track, offset]){
+      event.preventDefault()
+
+      commit('removeNote', {track, offset})
+    }
   },
 
   getters:{
