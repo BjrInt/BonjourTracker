@@ -217,6 +217,12 @@ const playback = {
   getters:{
     BPM(state){
       return state.BPM
+    },
+
+    currentOctave(state){
+      const {track, offset} = state.openedVK
+
+      return state.tracks[track].notes[offset].octave
     }
   }
 }

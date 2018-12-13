@@ -1,22 +1,28 @@
 <template lang="html">
   <div class="global-overlay" @click="e => closeVirtualKeyboard(e)">
-    <div class="standard-modal wrapper">
-      <div class="keyroll">
-        <div v-for="key in KEYROLL"
-             :class="key.endsWith('#') ? 'sharpnote' : 'note'"
-             :key="key"
-             @click="e => insertNote([key, 4])"
-             class="key">
-             {{key}}
+    <div class="standard-modal">
+      <h1>OCTAVE [{{currentOctave}}]</h1>
+
+      <div class="wrapper">
+        <div class="octave lower">&lt;</div>
+        <div class="keyroll">
+          <div v-for="key in KEYROLL"
+               :class="key.endsWith('#') ? 'sharpnote' : 'note'"
+               :key="key"
+               @click="e => insertNote([key, 4])"
+               class="key">
+               {{key}}
+          </div>
         </div>
+        <div class="octave upper">&gt;</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
-import { NOTE_FREQUENCIES } from '../lib.helpers.js'
+import { mapActions, mapState, mapGetters } from 'vuex'
+import { NOTE_FREQUENCIES, onESCkey } from '../lib.helpers'
 
 export default {
   name: 'VirtualKeyboard',
@@ -27,6 +33,9 @@ export default {
       'insertNote'
     ])
   },
+  computed: mapGetters([
+    'currentOctave'
+  ]),
   data: () => ({
     KEYROLL: Object.keys(NOTE_FREQUENCIES)
   }),
@@ -79,6 +88,19 @@ export default {
   &:hover{
     background: rgb(36, 173, 71);
   }
+}
+
+.octave{
+  font-size: 40px;
+  cursor: pointer;
+  padding: 20px 5px;
+}
+
+h1{
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  font-size: 40px;
 }
 
 </style>
