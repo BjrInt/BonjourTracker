@@ -1,6 +1,6 @@
 <template lang="html">
-  <div class="global-overlay" @click="e => closeTrackOptions(e)">
-    <div class="standard-modal wrapper">
+  <Modal :cb="e => closeTrackOptions(e)">
+    <div class="wrapper">
       <div style="width:225px">
         <label>Track name:</label>
         <input type="text" :value="trackName" @input="setTrackName" />
@@ -27,7 +27,7 @@
         </select>
       </div>
     </div>
-  </div>
+  </Modal>
 </template>
 
 <script>
@@ -35,8 +35,13 @@ import { mapActions, mapState } from 'vuex'
 import { getIterableArray, onESCkey } from '../lib.helpers'
 import { OSC_TYPES } from '../lib.audio'
 
+import Modal from './modal.vue'
+
 export default {
   name: 'TrackOptions',
+  components: {
+    Modal
+  },
   methods: {
     ...mapActions([
       'closeTrackOptions',

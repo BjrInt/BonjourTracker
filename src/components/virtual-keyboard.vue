@@ -1,31 +1,34 @@
 <template lang="html">
-  <div class="global-overlay" @click="e => closeVirtualKeyboard(e)">
-    <div class="standard-modal">
-      <h1>OCTAVE [{{currentOctave}}]</h1>
+  <Modal :cb="e => closeVirtualKeyboard(e)">
+    <h1>OCTAVE [{{currentOctave}}]</h1>
 
-      <div class="wrapper">
-        <div class="octave lower">&lt;</div>
-        <div class="keyroll">
-          <div v-for="key in KEYROLL"
-               :class="key.endsWith('#') ? 'sharpnote' : 'note'"
-               :key="key"
-               @click="e => insertNote([key, 4])"
-               class="key">
-               {{key}}
-          </div>
+    <div class="wrapper">
+      <div class="octave lower">&lt;</div>
+      <div class="keyroll">
+        <div v-for="key in KEYROLL"
+             :class="key.endsWith('#') ? 'sharpnote' : 'note'"
+             :key="key"
+             @click="e => insertNote([key, 4])"
+             class="key">
+             {{key}}
         </div>
-        <div class="octave upper">&gt;</div>
       </div>
+      <div class="octave upper">&gt;</div>
     </div>
-  </div>
+  </Modal>
 </template>
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
 import { NOTE_FREQUENCIES, onESCkey } from '../lib.helpers'
 
+import Modal from './modal.vue'
+
 export default {
   name: 'VirtualKeyboard',
+  components: {
+    Modal
+  },
   methods: {
     ...mapActions([
       'closeVirtualKeyboard',
