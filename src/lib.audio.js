@@ -7,42 +7,42 @@ const createMonoAudioBuffer = (len=2) => context.createBuffer(1, context.sampleR
 export const OSC_TYPES = ['sine', 'square', 'sawtooth', 'triangle']
 
 export const CUSTOM_WAVEFORMS = {
-  // white_noise: (() => {
-  //   const arBuf = createMonoAudioBuffer()
-  //   arBuf.getChannelData(1).forEach((x, i, t) => { t[i] = getRandomPCMInt() })
-  //
-  //   return arBuf
-  // })(),
-  //
-  // sine_tri: (() => {
-  //   const arBuf = createMonoAudioBuffer()
-  //   arBuf.getChannelData(1).forEach((x, i, t) => {
-  //     if(i <= t.length / 2)
-  //       t[i] = Math.sin(i / t.length * Math.PI) * 2 - 1
-  //     else
-  //       t[i] = 1 - (i / t.length) * 2
-  //   })
-  // })(),
+  white_noise: (() => {
+    const arBuf = createMonoAudioBuffer()
+    arBuf.getChannelData(0).forEach((x, i, t) => { t[i] = getRandomPCMInt() })
 
-  white_noise: null,
-  sine_tri: null
+    return arBuf
+  })()
 }
 
 export const createOscillator = (type='sine', volume=100) => {
-  const osc = context.createOscillator()
   const gain = context.createGain()
-
-  osc.type = type
   gain.gain.value = volume / 100
 
-  osc.connect(gain)
-  gain.connect(context.destination)
+  if(OSC_TYPES.includes(type)){
+    const osc = context.createOscillator()
+    osc.type = type
 
-  return osc
+    osc.connect(gain)
+    gain.connect(context.destination)
+
+    return osc
+  }
+  else if(CUSTOM_WAVEFORMS.hasOwnProperty(type)){
+    const source = context.createBufferSource()
+          source.buffer = CUSTOM_WAVEFORMS[type]
+
+    source.connect(gain)
+    gain.connect(context.destination)
+
+    return source
+  }
 }
 
 export const playNote = (osc, value=440) => {
-  osc.frequency.value = value
+  if(osc.hasOwnProperty('frequency'))
+    osc.frequency.value = value
+
   osc.start(context.currentTime)
   osc.stop(context.currentTime + 0.2)
 }
