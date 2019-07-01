@@ -33,7 +33,7 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import { getIterableArray, onESCkey } from '../lib.helpers'
-import { OSC_TYPES } from '../lib.audio'
+import { OSC_TYPES, CUSTOM_WAVEFORMS } from '../lib.audio'
 
 import Modal from './modal.vue'
 
@@ -60,7 +60,10 @@ export default {
     colors: getIterableArray(6).map((x, i) => (
       'hsl('+ 60 * i +', 100%, 40%)'
     )),
-    OSC_TYPES
+    OSC_TYPES: [
+      ...OSC_TYPES,
+      ...Object.keys(CUSTOM_WAVEFORMS)
+    ]
   }),
   mounted(){
     window.addEventListener('keyup', e => onESCkey(e, this.closeTrackOptionsESC))
