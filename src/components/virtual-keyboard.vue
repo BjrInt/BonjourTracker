@@ -3,17 +3,17 @@
     <h1>OCTAVE [{{currentOctave}}]</h1>
 
     <div class="wrapper">
-      <div class="octave lower">&lt;</div>
+      <div class="octave lower" @click="lowerOctave">&lt;</div>
       <div class="keyroll">
         <div v-for="key in KEYROLL"
              :class="key.endsWith('#') ? 'sharpnote' : 'note'"
              :key="key"
-             @click="e => insertNote([key, 4])"
+             @click="e => insertNote(key)"
              class="key">
              {{key}}
         </div>
       </div>
-      <div class="octave upper">&gt;</div>
+      <div class="octave upper" @click="upperOctave">&gt;</div>
     </div>
   </Modal>
 </template>
@@ -33,7 +33,9 @@ export default {
     ...mapActions([
       'closeVirtualKeyboard',
       'closeVirtualKeyboardESC',
-      'insertNote'
+      'insertNote',
+      'upperOctave',
+      'lowerOctave'
     ])
   },
   computed: mapGetters([
@@ -97,6 +99,14 @@ export default {
   font-size: 40px;
   cursor: pointer;
   padding: 20px 5px;
+  transition: .5s;
+  border-radius: 5px;
+  margin: 0 5px;
+
+  &:hover{
+    background: #000;
+    color: #FFF;
+  }
 }
 
 h1{

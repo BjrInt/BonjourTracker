@@ -131,13 +131,13 @@ const playback = {
       state.tracks[track].notes[offset].volume = newVol
     },
 
-    insertNote(state, payload){
+    insertNote(state, note){
       const {track, offset} = state.openedVK
 
       // Triggers a rerender (nested object)
       Vue.set(state.tracks[track].notes, offset, {
         ...state.tracks[track].notes[offset],
-        ...payload
+        note
       })
 
       state.openedVK = null
@@ -145,7 +145,22 @@ const playback = {
 
     removeNote(state, {track, offset}){
       Vue.set(state.tracks[track].notes, offset, NULL_NOTE)
-    }
+    },
+
+    changeOctave(state, increment){
+      let nextOctave = this.getters.currentOctave + increment
+
+      if(nextOctave >= 8 && increment === 1)
+        return
+      else if(nextOctave === 0 && increment === -1)
+        return
+
+      const {track, offset} = state.openedVK
+      Vue.set(state.tracks[track].notes, offset, {
+        ...state.tracks[track].notes[offset],
+        octave: nextOctave
+      })
+    },
   },
 
   actions:{
@@ -203,15 +218,23 @@ const playback = {
 
     closeVirtualKeyboardESC({commit}){ commit('closeVirtualKeyboardESC') },
 
-    insertNote({commit}, [note, octave]){
-      commit('insertNote', {note, octave})
+    insertNote({commit}, note){
+      commit('insertNote', note)
     },
 
     removeNote({commit}, [event, track, offset]){
       event.preventDefault()
 
       commit('removeNote', {track, offset})
-    }
+    },
+
+    lowerOctave({commit}){
+      commit('changeOctave', -1)
+    },
+
+    upperOctave({commit}){
+      commit('changeOctave', 1)
+    },
   },
 
   getters:{
