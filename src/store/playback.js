@@ -161,6 +161,11 @@ const playback = {
         octave: nextOctave
       })
     },
+
+    setBPM(state, BPM){
+      BPM = BPM > 300 ? 300 : BPM < 50 ? 50 : BPM
+      state.BPM = BPM
+    }
   },
 
   actions:{
@@ -235,6 +240,10 @@ const playback = {
     upperOctave({commit}){
       commit('changeOctave', 1)
     },
+
+    setBPM({commit}, BPM){
+      commit('setBPM', BPM)
+    }
   },
 
   getters:{

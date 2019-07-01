@@ -15,6 +15,14 @@
 
       <span class="__stop actionbtn" @click="Stop" />
     </div>
+
+    <div class="bpm_setter">
+      <input type="number"
+             :value="BPM"
+             max="300"
+             min="60"
+             @change="e => setBPM(e.target.value)" />
+    </div>
   </div>
 </template>
 
@@ -36,7 +44,8 @@ export default {
     ...mapActions([
       'Play',
       'Pause',
-      'Stop'
+      'Stop',
+      'setBPM'
     ])
   }
 }
