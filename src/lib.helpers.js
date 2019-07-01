@@ -25,7 +25,7 @@ export const NULL_NOTE = {
 const NOTE_KEYS = Object.keys(NOTE_FREQUENCIES)
 
 export const colorizeNote = (note, octave) => {
-  const index = NOTE_KEYS.findIndex(k => note == k)
+  const index = NOTE_KEYS.findIndex(k => note === k)
 
   if(index !== -1){
     let hsl = []
@@ -48,7 +48,7 @@ export const getClosestMultiple = (input, m=5) => input - (input % m)
 export const getIterableArray = len => Array.apply(0, Array(len))
 
 export const initTrack = (l=TRACK_LENGTH) => (
-  getIterableArray(l).map(() => (NULL_NOTE))
+  getIterableArray(l).map(() => NULL_NOTE)
 )
 
 export const onESCkey = (e, cb) => {
