@@ -40,7 +40,7 @@ export const createOscillator = (type='sine', volume=100) => {
 }
 
 export const playNote = (osc, value=440) => {
-  if(osc.hasOwnProperty('frequency'))
+  if(osc.__proto__.hasOwnProperty('frequency'))
     osc.frequency.value = value
 
   osc.start(context.currentTime)
